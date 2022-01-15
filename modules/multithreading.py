@@ -3,6 +3,7 @@
 ################################################################################
 ##                                   README                                   ##
 ################################################################################
+## Demo example how to use threading in Python3.
 
 
 ################################################################################
@@ -25,11 +26,14 @@ Threads:
 Additional resources:
 - https://www.youtube.com/watch?v=3dEPY3HiPtI
 '''
+
+
 ################################################################################
 ##                                  Modules                                   ##
 ################################################################################
 ## Docs: https://docs.python.org/3/library/threading.html
 import threading
+## Docs: https://docs.python.org/3/library/time.html
 import time
 
 
@@ -38,18 +42,21 @@ import time
 ################################################################################
 ## Function, that takes (5) seconds to finish execution.
 def function_1(exec_time: int = 5):
+    print(f"Function 1 started.")
     time.sleep(exec_time)
     print(f"Function 1 finished after {exec_time} seconds.")
 
 
 ## Function, that takes (3) seconds to finish execution.
 def function_2(exec_time: int = 3):
+    print(f"Function 2 started.")
     time.sleep(exec_time)
     print(f"Function 2 finished after {exec_time} seconds.")
 
 
 ## Function, that takes always 6 seconds to finish execution.
 def function_3():
+    print(f"Function 3 started.")
     time.sleep(6)
     print(f"Function 3 finished after 6 seconds.")
 
@@ -59,22 +66,33 @@ def show_active_threads():
     print(f"Currently are running {threading.active_count()} threads.")
 
 
-## Starting function.
+## Program starting function.
 def main():
-    ## Create thread to execute function_1() in 4 seconds instead.
-    thd_1 = threading.Thread(target=function_1(), args=(4))
+    ## Create thread to execute function_1() in 7 seconds instead.
+    thd_1 = threading.Thread(target=function_1, args=(7,))
     ## Start thread thd_1.
     thd_1.start()
 
     ## Create thread to execute function_2() in 5 seconds instead.
-    thd_2 = threading.Thread(target=function_2(), args=(5))
+    thd_2 = threading.Thread(target=function_2, args=(5,))
     ## Start thread thd_2.
     thd_2.start()
 
     ## Create thread to execute function_3().
-    thd_3 = threading.Thread(target=function_1(), args=())
+    thd_3 = threading.Thread(target=function_3, args=())
     ## Start thread thd_3.
     thd_3.start()
+
+    ## Execute function, that shows how many threads are running.
+    ## (executed with Main Thread)
+    show_active_threads()
+
+    ## Wait until thd_1 finished execution.
+    thd_1.join()
+    ## Wait until thd_2 finished execution.
+    thd_2.join()
+    ## Wait until thd_3 finished execution.
+    thd_3.join()
 
     ## Execute function, that shows how many threads are running.
     ## (executed with Main Thread)
