@@ -20,7 +20,7 @@ Multithreading or Multiprocessing?
 
 Threads:
 - 1st thread is main thread for the program.
-- each time we create new separate thred.
+- each time we create new separate thread.
 
 
 Additional resources:
@@ -62,18 +62,25 @@ def function_3():
     print(f"Function 3 finished after {static_seconds} seconds.")
 
 
+## Function that shows status of processes.
+def show_processes(processes: list):
+    i = 0
+    while i < len(processes):
+        print(f"Process {i+1}: {processes[i]}")
+        i += 1
+
+
 ## Program starting function.
 def main():
     ## Start time of the program.
     program_start = time.perf_counter()
 
-    ## Create process to execute function_1() in 7 seconds instead.
+    ## Create process to execute "target" function and optionally pass arguments.
     p1 = multiprocessing.Process(target=function_1, args=(7,))
-    ## Create process to execute function_2() in 5 seconds instead.
     p2 = multiprocessing.Process(target=function_2, args=(5,))
-    ## Create process to execute function_3().
     p3 = multiprocessing.Process(target=function_3, args=())
 
+    ## Define processes in a list.
     processes = [p1, p2, p3]
 
     ## Start processes.
@@ -81,22 +88,16 @@ def main():
     p2.start()
     p3.start()
 
-    ## Show PIDs of processes.
-    i = 0
-    while i < len(processes):
-        print(f"Process {i+1}: {processes[i]}")
-        i += 1
+    ## Show status of processess.
+    show_processes(processes)
 
     ## Wait until each process finished execution.
     p1.join()
     p2.join()
     p3.join()
 
-    ## Show PIDs of processes.
-    i = 0
-    while i < len(processes):
-        print(f"Process {i+1}: {processes[i]}")
-        i += 1
+    ## Show status of processess.
+    show_processes(processes)
 
     ## Show how many seconds the program took to execute.
     program_finish = time.perf_counter()

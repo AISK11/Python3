@@ -20,7 +20,7 @@ Multithreading or Multiprocessing?
 
 Threads:
 - 1st thread is main thread for the program.
-- each time we create new separate thred.
+- each time we create new separate thread.
 
 
 Additional resources:
@@ -73,11 +73,9 @@ def main():
     ## Start time of the program.
     program_start = time.perf_counter()
 
-    ## Create thread to execute function_1() in 7 seconds instead.
+    ## Create thread to execute "target" function and optionally pass arguments.
     t1 = threading.Thread(target=function_1, args=(7,))
-    ## Create thread to execute function_2() in 5 seconds instead.
     t2 = threading.Thread(target=function_2, args=(5,))
-    ## Create thread to execute function_3().
     t3 = threading.Thread(target=function_3, args=())
 
     ## Start threads.
