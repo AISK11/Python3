@@ -9,19 +9,48 @@
 ##                                  Theory                                    ##
 ################################################################################
 '''
-Multithreading or Multiprocessing?
-- CPU bound -> program spends most of the time waiting for internal events,
-               (CPU intensive), use multiprocessing.
-
-- I/O bound -> program spends most of the time waiting for external events,
-               (user input, web scraping...), use multithreading.
-
-
-Threads:
-- 1st thread is main thread for the program.
-- each time we create new separate thread.
+      Server
+    +--------+
+    | socket |
+    |   |    |
+    |  bind  |
+    |   |    |
+    | listen |                         Client
+    |   |    |                       +---------+
+    | accept |                       | socket  |
+    |   |    |                       |    |    |
+    |   |    |<- 3-way handshake ----| connect |
+    |   |    |                       |    |    |
++-->|  recv  |<- client send data ---|  send   |<--+
+|   |   |    |                       |    |    |   |
++---|  send  |-- server send data -->|  recv   |---+
+    |   |    |                       |    |    |
+    |  recv  |<- client send close --|  close  |
+    |   |    |                       +---------+
+    | close  |
+    +--------+
 
 
 Additional resources:
-- https://www.youtube.com/watch?v=fKl2JW_qrso
+- https://www.youtube.com/watch?v=3QiPPX-KeSc
 '''
+
+
+################################################################################
+##                                  Modules                                   ##
+################################################################################
+## Docs: https://docs.python.org/3/library/socket.html
+import socket
+
+
+################################################################################
+##                                 Functions                                  ##
+################################################################################
+## Program starting function.
+def main():
+    pass
+
+
+## Python3 program start execution.
+if __name__ == "__main__":
+    main()
