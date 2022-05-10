@@ -25,16 +25,17 @@ Threads:
 
 Additional resources:
 - https://www.youtube.com/watch?v=3dEPY3HiPtI
+- https://www.youtube.com/watch?v=IEEhzQoKtQU&list=RDCMUCCezIgC97PvUuR4_gbFUs5g
 '''
 
 
 ################################################################################
 ##                                  Modules                                   ##
 ################################################################################
-## Docs: https://docs.python.org/3/library/threading.html
-import threading
 ## Docs: https://docs.python.org/3/library/time.html
 import time
+## Docs: https://docs.python.org/3/library/threading.html
+import threading
 
 
 ################################################################################
@@ -57,46 +58,47 @@ def function_2(exec_time: int = 3):
 ## Function, that takes always 6 seconds to finish execution.
 def function_3():
     print(f"Function 3 started.")
-    time.sleep(6)
-    print(f"Function 3 finished after 6 seconds.")
+    static_seconds = 6
+    time.sleep(static_seconds)
+    print(f"Function 3 finished after {static_seconds} seconds.")
 
 
 ## Function, that prints out how many threads are currently running.
 def show_active_threads():
-    print(f"Currently are running {threading.active_count()} threads.")
+    print(f"Current threads running: {threading.active_count()}")
 
 
 ## Program starting function.
 def main():
+    ## Start time of the program.
+    program_start = time.perf_counter()
+
     ## Create thread to execute function_1() in 7 seconds instead.
-    thd_1 = threading.Thread(target=function_1, args=(7,))
-    ## Start thread thd_1.
-    thd_1.start()
-
+    t1 = threading.Thread(target=function_1, args=(7,))
     ## Create thread to execute function_2() in 5 seconds instead.
-    thd_2 = threading.Thread(target=function_2, args=(5,))
-    ## Start thread thd_2.
-    thd_2.start()
-
+    t2 = threading.Thread(target=function_2, args=(5,))
     ## Create thread to execute function_3().
-    thd_3 = threading.Thread(target=function_3, args=())
-    ## Start thread thd_3.
-    thd_3.start()
+    t3 = threading.Thread(target=function_3, args=())
 
-    ## Execute function, that shows how many threads are running.
-    ## (executed with Main Thread)
+    ## Start threads.
+    t1.start()
+    t2.start()
+    t3.start()
+
+    ## Shows how many threads are running (executed with Main Thread).
     show_active_threads()
 
-    ## Wait until thd_1 finished execution.
-    thd_1.join()
-    ## Wait until thd_2 finished execution.
-    thd_2.join()
-    ## Wait until thd_3 finished execution.
-    thd_3.join()
+    ## Wait until each thread finished execution.
+    t1.join()
+    t2.join()
+    t3.join()
 
-    ## Execute function, that shows how many threads are running.
-    ## (executed with Main Thread)
+    ## Shows how many threads are running (executed with Main Thread).
     show_active_threads()
+
+    ## Show how many seconds the program took to execute.
+    program_finish = time.perf_counter()
+    print(f"Program finished in {round(program_finish-program_start, 2)} second(s).")
 
 
 ## Python3 program start execution.
